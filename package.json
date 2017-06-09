@@ -3,9 +3,19 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "engines": {
+        "node": "6.10.3",
+        "npm": "3.10.10"
+    },
     "scripts": {
         "start": "nodemon src/server.js --exec babel-node",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "clean": "rm -rf build && mkdir build",
+        "clean-win": "if exist build rd /s /q build && mkdir build",
+        "babel-build": "babel -d ./build ./src",
+        "start-prod": "node ./build/server.js",
+        "deploy": "npm run-script clean && npm run-script babel-build && npm run-script start-prod",
+        "deploy-win": "npm run-script clean-win && npm run-script babel-build && npm run-script start-prod"
     },
     "repository": {
         "type": "git",

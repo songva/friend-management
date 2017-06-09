@@ -1,0 +1,5 @@
+applications:
+- name: friend-management
+  memory: 1G
+  host: friend-management
+  command: npm run-script start-prod
