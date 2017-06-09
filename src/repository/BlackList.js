@@ -25,6 +25,9 @@ let BlackList = {
         return blacklist.filter((block) => {
             return block.getBlocked().getEmail() === victim;
         });
+    },
+    emptyList : () => {
+        blacklist = [];
     }
 }
 

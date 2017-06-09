@@ -26,6 +26,9 @@ let FriendList = {
         return friends.filter((friendship) => {
             return friendship.getHost().getEmail() === user;
         });
+    },
+    emptyList : () => {
+        friends = [];
     }
 }
 

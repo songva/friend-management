@@ -20,6 +20,9 @@ let SubscriptionList = {
         return subscriptions.filter((subscribe) => {
             return subscribe.getTarget().getEmail() === user;
         });
+    },
+    emptyList : () => {
+        subscriptions = [];
     }
 }
 
