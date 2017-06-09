@@ -21,6 +21,11 @@ let BlackList = {
             return block.getHost().getEmail() === user;
         });
     },
+    getUsersBlockedUpateFrom : (victim) => {
+        return blacklist.filter((block) => {
+            return block.getBlocked().getEmail() === victim;
+        });
+    }
 }
 
 

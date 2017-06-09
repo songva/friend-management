@@ -13,6 +13,9 @@ let UserList = {
         return users.find((user) => {
             return user.getEmail() === userEmail;
         });
+    },
+    getUsers : () => {
+        return users;
     }
 }
 
