@@ -21,7 +21,7 @@ let PostUpdateService = {
         // Get all mentioned registered users
         let emails = text.match(/([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)/gi);
         let mentionedList = UserList.getUsers().filter((user) => {
-            return emails.indexOf(user.getEmail()) !== -1;
+            return (emails||[]).indexOf(user.getEmail()) !== -1;
         })
         let candidates = friends.concat(followers, mentionedList);
 
