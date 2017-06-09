@@ -1,11 +1,31 @@
 import Friendship from '../model/Friendship';
 import UserList from '../repository/UserTable';
 import FriendList from '../repository/FriendTable';
+import BlackList from '../repository/BlackList';
+
+let isMutualBlocked = (host, guest) => {
+    // Users got blocked by host
+    let blocked = BlackList.getBlacklistOf(host).map((blocked) => {
+        return blocked.getBlocked();
+    });
+    // Users who blocked the host
+    let userBlockedUpdates = BlackList.getUsersBlockedUpateFrom(host).map((meaner) => {
+        return meaner.getHost();
+    });
+    // Check if the guest is one of those two kinds of users
+    let isBlocked = blocked.concat(userBlockedUpdates).filter((stranger) => {
+        return stranger.getEmail() === guest;
+    });
+    return isBlocked.length > 0;
+}
 
 let FriendService = {
     addFriends : (host, guest) => {
         if(!UserList.hasUser(host) || !UserList.hasUser(guest)){
             return 'One or Both of the users is/are not registered';
+        }
+        if(isMutualBlocked(host, guest)){
+            return 'One of the users has blackedlisted the other';
         }
         return FriendList.addFriends(host, guest);
     },
