@@ -22,7 +22,7 @@ BlockController.post('/', (req, res) => {
         res.json(new ResponseTemplate(errorMsg).toJson());
         return;
     }
-    errorMsg = BlockService.block(req.body.target, req.body.requestor);
+    errorMsg = BlockService.block(req.body.requestor, req.body.target);
     res.json(new ResponseTemplate(errorMsg).toJson());
 });
 
