@@ -24,7 +24,7 @@
 
     http://friend-management.cfapps.io/publish/post
     
-Import [friend-management.postman_collection.json](https://github.com/songva/friend-management/blob/master/friend-management.postman_collection.json) and [production.postman_environment.json](https://github.com/songva/friend-management/blob/master/production.postman_environment.json) to [Postman](https://www.getpostman.com/) to run the complete test suite.
+Import [friend-management.postman_collection.json](https://github.com/songva/friend-management/blob/master/friend-management.postman_collection.json) or [open in POSTMAN here](https://www.getpostman.com/collections/5a14338dfe94b2ff91fb) and [production.postman_environment.json](https://github.com/songva/friend-management/blob/master/production.postman_environment.json) to [Postman](https://www.getpostman.com/) to run the complete test suite.
 
 ### Code Structure
 ```
