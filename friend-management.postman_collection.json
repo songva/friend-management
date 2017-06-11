@@ -1,0 +1,913 @@
+{
+	"variables": [],
+	"info": {
+		"name": "friend-management",
+		"_postman_id": "12938797-b78e-f61a-3d3d-1f1cc26785e3",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1.init-flow",
+			"description": "",
+			"item": [
+				{
+					"name": "/setting/reset",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/setting/reset",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2.friend-flow",
+			"description": "",
+			"item": [
+				{
+					"name": "/friend/create -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The parameter:friends should be an array with two items\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\"]\n}"
+						},
+						"description": "The parameter:friends should be an array with two items"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/create -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The parameter:friends should be an array with two items\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\", \"donald.j.trump@usa.com\", \"theresa.may@uk.com\"]\n}"
+						},
+						"description": "The parameter:friends should be an array with two items"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/create -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"One or Both of the users is/are not registered\";",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"songva@gmail.com\", \"xi.jingping@china.com\"]\n}"
+						},
+						"description": "One or Both of the users is/are not registered"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
+						},
+						"description": "friend xi.jingping@china.com & donald.j.trump@usa.com"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/create -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"Their friendship has already been built up\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
+						},
+						"description": "Their friendship has already been built up"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/create -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"Their friendship has already been built up\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"donald.j.trump@usa.com\", \"xi.jingping@china.com\"]\n}"
+						},
+						"description": "Their friendship has already been built up"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\", \"theresa.may@uk.com\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"angela.merkel@germany.com\", \"xi.jingping@china.com\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;",
+									"tests[\"Friends count is 1\"] = jsonData.count === 1 && jsonData.friends.length === 1;",
+									"tests[\"Friends content is right\"] = jsonData.friends[0] === \"xi.jingping@china.com\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/list",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\" : \"angela.merkel@germany.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/list",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;",
+									"tests[\"Friends count is 3\"] = jsonData.count === 3 && jsonData.friends.length === 3;",
+									"tests[\"Friends content is right\"] = [\"donald.j.trump@usa.com\", \"theresa.may@uk.com\",\"angela.merkel@germany.com\"].indexOf(jsonData.friends[0]) > -1 && [\"donald.j.trump@usa.com\", \"theresa.may@uk.com\",\"angela.merkel@germany.com\"].indexOf(jsonData.friends[1]) > -1 && [\"donald.j.trump@usa.com\", \"theresa.may@uk.com\",\"angela.merkel@germany.com\"].indexOf(jsonData.friends[2]) > -1;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/list",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\" : \"xi.jingping@china.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/list -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The users is not registered\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/list",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\" : \"songva@gmail.com\"\n}"
+						},
+						"description": "The users is not registered"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/list -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"There is no friend connections to this user\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/list",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\" : \"hamad.bin.khalifa@qatar.com\"\n}"
+						},
+						"description": "There is no friend connections to this user"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/listInCommon -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"They have no friends in common\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/listInCommon",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
+						},
+						"description": "They have no friends in common"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/listInCommon -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The friends parameter should be an array with two items\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/listInCommon",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\"]\n}"
+						},
+						"description": "The friends parameter should be an array with two items"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/listInCommon -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The friends parameter should be an array with two items\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/listInCommon",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\", \"donald.j.trump@usa.com\", \"theresa.may@uk.com\"]\n}"
+						},
+						"description": "The friends parameter should be an array with two items"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/listInCommon -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"One or Both of the users is/are not registered\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/listInCommon",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\", \"songva@gmail.com\"]\n}"
+						},
+						"description": "One or Both of the users is/are not registered"
+					},
+					"response": []
+				},
+				{
+					"name": "/friend/listInCommon",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"Friends count is 1\"] = jsonData.count === 1 && jsonData.friends.length === 1;",
+									"tests[\"Friends content is right\"] = jsonData.friends[0] === \"xi.jingping@china.com\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/listInCommon",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"friends\" : [\"angela.merkel@germany.com\", \"donald.j.trump@usa.com\"]\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3.subsribe flow",
+			"description": "",
+			"item": [
+				{
+					"name": "/subscribe -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The requestor should be specified as parameter:requestor\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"target\" : \"songva@gmail.com\"\n}"
+						},
+						"description": "The requestor should be specified as parameter:requestor"
+					},
+					"response": []
+				},
+				{
+					"name": "/subscribe -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The target should be specified as parameter:target\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"requestor\" : \"xi.jingping@china.com\"\n}"
+						},
+						"description": "The target should be specified as parameter:target"
+					},
+					"response": []
+				},
+				{
+					"name": "/subscribe -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The target or requestor is/are not registered\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"requestor\" : \"xi.jingping@china.com\",\n\t\"target\" : \"songva@gmail.com\"\n}"
+						},
+						"description": "The target or requestor is/are not registered"
+					},
+					"response": []
+				},
+				{
+					"name": "/subscribe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"requestor\" : \"xi.jingping@china.com\",\n\t\"target\" : \"donald.j.trump@usa.com\"\n}"
+						},
+						"description": "The parameter:friends should be an array with two items"
+					},
+					"response": []
+				},
+				{
+					"name": "/subscribe -- Failed",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The requestor has already subscribed to the target\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"requestor\" : \"xi.jingping@china.com\",\n\t\"target\" : \"donald.j.trump@usa.com\"\n}"
+						},
+						"description": "The requestor has already subscribed to the target"
+					},
+					"response": []
+				},
+				{
+					"name": "/subscribe",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"requestor\" : \"donald.j.trump@usa.com\",\n\t\"target\" : \"xi.jingping@china.com\"\n}"
+						},
+						"description": "The parameter:friends should be an array with two items"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "/setting/reset",
+			"request": {
+				"url": "{{domain.name}}/setting/reset",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/setting/users",
+			"request": {
+				"url": "{{domain.name}}/setting/users",
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "/publish/post",
+			"request": {
+				"url": "{{domain.name}}/publish/post",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sender\": \"xi.jingping@china.com\",\n\t\"text\": \"Hello @shinzo.abe@japan.com\"\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
