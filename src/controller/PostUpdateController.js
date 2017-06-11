@@ -22,9 +22,9 @@ PostUpdateController.post('/post', (req, res) => {
     }
     let result = PostUpdateService.publish(req.body.sender, req.body.text);
     if(result instanceof Array){
-        let recipients = new Set(result.map((recipient) => {
+        let recipients = Array.from(new Set(result.map((recipient) => {
             return recipient.getEmail();
-        }));
+        })));
         res.json(new ResponseTemplate("", {recipients}).toJson());
     }else{
         res.json(new ResponseTemplate(result).toJson());
