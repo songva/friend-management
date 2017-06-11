@@ -7,7 +7,7 @@ let PostUpdateController = express();
 let validate4Post = (req) => {
     let errorMsg = '';
     if(!req.body || !req.body.sender){
-        errorMsg = 'The sender should be specified as parameter:requestor';
+        errorMsg = 'The sender should be specified as parameter:sender';
     }else if(!req.body.text){
         errorMsg = 'The content of post should be specified as parameter:text';
     }

@@ -2,7 +2,7 @@
 	"variables": [],
 	"info": {
 		"name": "friend-management",
-		"_postman_id": "12938797-b78e-f61a-3d3d-1f1cc26785e3",
+		"_postman_id": "cae4170a-237a-ee91-f102-174abc4e06d2",
 		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
@@ -12,7 +12,7 @@
 			"description": "",
 			"item": [
 				{
-					"name": "/setting/reset",
+					"name": "[SUC] Reset, remove all relationships",
 					"event": [
 						{
 							"listen": "test",
@@ -35,6 +35,31 @@
 						"description": ""
 					},
 					"response": []
+				},
+				{
+					"name": "[SUC] Get all users in the game",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/setting/users",
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"description": ""
+					},
+					"response": []
 				}
 			]
 		},
@@ -43,7 +68,7 @@
 			"description": "",
 			"item": [
 				{
-					"name": "/friend/create -- Failed",
+					"name": "[Fail] Trump wants to make friend with no one",
 					"event": [
 						{
 							"listen": "test",
@@ -71,14 +96,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"donald.j.trump@usa.com\"]\n}"
 						},
 						"description": "The parameter:friends should be an array with two items"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/create -- Failed",
+					"name": "[FAIL] Make friend amongst Xi, Trump and Theresa",
 					"event": [
 						{
 							"listen": "test",
@@ -106,14 +131,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\", \"donald.j.trump@usa.com\", \"theresa.may@uk.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"xi.jingping@china.com\", \"donald.j.trump@usa.com\", \"theresa.may@uk.com\"]\n}"
 						},
 						"description": "The parameter:friends should be an array with two items"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/create -- Failed",
+					"name": "[FAIL] Songva, who is out-of-game, wants to make friend with Xi",
 					"event": [
 						{
 							"listen": "test",
@@ -149,7 +174,7 @@
 					"response": []
 				},
 				{
-					"name": "/friend/create",
+					"name": "[SUC] Xi and Trump are friends",
 					"event": [
 						{
 							"listen": "test",
@@ -177,14 +202,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
 						},
-						"description": "friend xi.jingping@china.com & donald.j.trump@usa.com"
+						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/create -- Failed",
+					"name": "[FAIL] Xi wants to make friend with Trump again",
 					"event": [
 						{
 							"listen": "test",
@@ -212,14 +237,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
 						},
 						"description": "Their friendship has already been built up"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/create -- Failed",
+					"name": "[FAIL] Trump wants to make friend with Xi again",
 					"event": [
 						{
 							"listen": "test",
@@ -247,14 +272,49 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"donald.j.trump@usa.com\", \"xi.jingping@china.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"donald.j.trump@usa.com\", \"xi.jingping@china.com\"]\n}"
 						},
 						"description": "Their friendship has already been built up"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/create",
+					"name": "[FAIL] Trump wants to make friend with himself",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"Cannot make a user friend to her/himself\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"friends\" : [\"donald.j.trump@usa.com\", \"donald.j.trump@usa.com\"]\n}"
+						},
+						"description": "Cannot make a user friend to her/himself"
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Theresa made friend with Xi",
 					"event": [
 						{
 							"listen": "test",
@@ -282,14 +342,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\", \"theresa.may@uk.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"xi.jingping@china.com\", \"theresa.may@uk.com\"]\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/create",
+					"name": "[SUC] Merkel made friend with Xi",
 					"event": [
 						{
 							"listen": "test",
@@ -317,14 +377,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"angela.merkel@germany.com\", \"xi.jingping@china.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"angela.merkel@germany.com\", \"xi.jingping@china.com\"]\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/list",
+					"name": "[SUC] Merkel listed her friends, there is only Xi",
 					"event": [
 						{
 							"listen": "test",
@@ -354,14 +414,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\" : \"angela.merkel@germany.com\"\n}"
+							"raw": "{\n  \"email\" : \"angela.merkel@germany.com\"\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/list",
+					"name": "[SUC] Xi listed his friends, there are Trump, Theresa, and Merkel",
 					"event": [
 						{
 							"listen": "test",
@@ -391,14 +451,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\" : \"xi.jingping@china.com\"\n}"
+							"raw": "{\n  \"email\" : \"xi.jingping@china.com\"\n}"
 						},
 						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/list -- Failed",
+					"name": "[FAIL] Songva wants to list his friends",
 					"event": [
 						{
 							"listen": "test",
@@ -409,7 +469,8 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"tests[\"Success is false\"] = jsonData.success === false;",
-									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The users is not registered\";"
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The users is not registered\";",
+									"tests[\"friends is null\"] = jsonData.friends === undefined;"
 								]
 							}
 						}
@@ -426,14 +487,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\" : \"songva@gmail.com\"\n}"
+							"raw": "{\n  \"email\" : \"songva@gmail.com\"\n}"
 						},
 						"description": "The users is not registered"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/list -- Failed",
+					"name": "[FAIL] Hamad, he doesn't have any friends",
 					"event": [
 						{
 							"listen": "test",
@@ -444,7 +505,8 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"tests[\"Success is false\"] = jsonData.success === false;",
-									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"There is no friend connections to this user\";"
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"There is no friend connections to this user\";",
+									"tests[\"friends is null\"] = jsonData.friends === undefined;"
 								]
 							}
 						}
@@ -461,14 +523,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"email\" : \"hamad.bin.khalifa@qatar.com\"\n}"
+							"raw": "{\n  \"email\" : \"hamad.bin.khalifa@qatar.com\"\n}"
 						},
 						"description": "There is no friend connections to this user"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/listInCommon -- Failed",
+					"name": "[FAIL] Xi and Trump have no friends in common",
 					"event": [
 						{
 							"listen": "test",
@@ -479,7 +541,8 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"tests[\"Success is false\"] = jsonData.success === false;",
-									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"They have no friends in common\";"
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"They have no friends in common\";",
+									"tests[\"friends is null\"] = jsonData.friends === undefined;"
 								]
 							}
 						}
@@ -496,14 +559,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"xi.jingping@china.com\",\"donald.j.trump@usa.com\"]\n}"
 						},
 						"description": "They have no friends in common"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/listInCommon -- Failed",
+					"name": "[FAIL] Trump tried to get friends in common with no one",
 					"event": [
 						{
 							"listen": "test",
@@ -514,7 +577,8 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"tests[\"Success is false\"] = jsonData.success === false;",
-									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The friends parameter should be an array with two items\";"
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The friends parameter should be an array with two items\";",
+									"tests[\"friends is null\"] = jsonData.friends === undefined;"
 								]
 							}
 						}
@@ -531,14 +595,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"donald.j.trump@usa.com\"]\n}"
 						},
 						"description": "The friends parameter should be an array with two items"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/listInCommon -- Failed",
+					"name": "[FAIL] Get common friends of Xi, Trump, and Theresa",
 					"event": [
 						{
 							"listen": "test",
@@ -549,7 +613,8 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"tests[\"Success is false\"] = jsonData.success === false;",
-									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The friends parameter should be an array with two items\";"
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The friends parameter should be an array with two items\";",
+									"tests[\"friends is null\"] = jsonData.friends === undefined;"
 								]
 							}
 						}
@@ -566,14 +631,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\", \"donald.j.trump@usa.com\", \"theresa.may@uk.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"xi.jingping@china.com\", \"donald.j.trump@usa.com\", \"theresa.may@uk.com\"]\n}"
 						},
 						"description": "The friends parameter should be an array with two items"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/listInCommon -- Failed",
+					"name": "[FAIL] Songva wants to get common friends with Xi",
 					"event": [
 						{
 							"listen": "test",
@@ -584,7 +649,8 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"tests[\"Success is false\"] = jsonData.success === false;",
-									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"One or Both of the users is/are not registered\";"
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"One or Both of the users is/are not registered\";",
+									"tests[\"friends is null\"] = jsonData.friends === undefined;"
 								]
 							}
 						}
@@ -601,14 +667,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"xi.jingping@china.com\", \"songva@gmail.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"xi.jingping@china.com\", \"songva@gmail.com\"]\n}"
 						},
 						"description": "One or Both of the users is/are not registered"
 					},
 					"response": []
 				},
 				{
-					"name": "/friend/listInCommon",
+					"name": "[SUC] Get common friends of Merkel and Trump",
 					"event": [
 						{
 							"listen": "test",
@@ -637,7 +703,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"friends\" : [\"angela.merkel@germany.com\", \"donald.j.trump@usa.com\"]\n}"
+							"raw": "{\n  \"friends\" : [\"angela.merkel@germany.com\", \"donald.j.trump@usa.com\"]\n}"
 						},
 						"description": ""
 					},
@@ -650,7 +716,7 @@
 			"description": "",
 			"item": [
 				{
-					"name": "/subscribe -- Failed",
+					"name": "[FAIL] Anonymous user wants to subscribe to Trump",
 					"event": [
 						{
 							"listen": "test",
@@ -678,14 +744,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"target\" : \"songva@gmail.com\"\n}"
+							"raw": "{\n  \"target\" : \"donald.j.trump@usa.com\"\n}"
 						},
 						"description": "The requestor should be specified as parameter:requestor"
 					},
 					"response": []
 				},
 				{
-					"name": "/subscribe -- Failed",
+					"name": "[FAIL] Trump feels confused whom to subscribe to",
 					"event": [
 						{
 							"listen": "test",
@@ -713,14 +779,49 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"requestor\" : \"xi.jingping@china.com\"\n}"
+							"raw": "{\n  \"requestor\" : \"donald.j.trump@usa.com\"\n}"
 						},
 						"description": "The target should be specified as parameter:target"
 					},
 					"response": []
 				},
 				{
-					"name": "/subscribe -- Failed",
+					"name": "[FAIL] Trump tried to subscribe to himself",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"Cannot subscribe to a user her/himself\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"donald.j.trump@usa.com\",\n  \"target\" : \"donald.j.trump@usa.com\"\n}"
+						},
+						"description": "Cannot subscribe to a user her/himself"
+					},
+					"response": []
+				},
+				{
+					"name": "[FAIL] Poor Songva wants to subscribe to Xi",
 					"event": [
 						{
 							"listen": "test",
@@ -748,14 +849,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"requestor\" : \"xi.jingping@china.com\",\n\t\"target\" : \"songva@gmail.com\"\n}"
+							"raw": "{\n  \"requestor\" : \"songva@gmail.com\",\n  \"target\" : \"xi.jingping@china.com\"\n}"
 						},
 						"description": "The target or requestor is/are not registered"
 					},
 					"response": []
 				},
 				{
-					"name": "/subscribe",
+					"name": "[SUC] Xi subscribed to Trump",
 					"event": [
 						{
 							"listen": "test",
@@ -783,14 +884,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"requestor\" : \"xi.jingping@china.com\",\n\t\"target\" : \"donald.j.trump@usa.com\"\n}"
+							"raw": "{\n  \"requestor\" : \"xi.jingping@china.com\",\n  \"target\" : \"donald.j.trump@usa.com\"\n}"
 						},
-						"description": "The parameter:friends should be an array with two items"
+						"description": ""
 					},
 					"response": []
 				},
 				{
-					"name": "/subscribe -- Failed",
+					"name": "[FAIL] Xi tries to subscribe to Trump again",
 					"event": [
 						{
 							"listen": "test",
@@ -801,7 +902,7 @@
 									"",
 									"var jsonData = JSON.parse(responseBody);",
 									"tests[\"Success is false\"] = jsonData.success === false;",
-									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The requestor has already subscribed to the target\";"
+									"tests[\"ErrorMsg shown properly\"] = jsonData.errorMsg === \"The requestor has already subscribed to the target\";"
 								]
 							}
 						}
@@ -818,14 +919,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"requestor\" : \"xi.jingping@china.com\",\n\t\"target\" : \"donald.j.trump@usa.com\"\n}"
+							"raw": "{\n  \"requestor\" : \"xi.jingping@china.com\",\n  \"target\" : \"donald.j.trump@usa.com\"\n}"
 						},
 						"description": "The requestor has already subscribed to the target"
 					},
 					"response": []
 				},
 				{
-					"name": "/subscribe",
+					"name": "[SUC] Trump also subscribed to Xi",
 					"event": [
 						{
 							"listen": "test",
@@ -853,61 +954,802 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"requestor\" : \"donald.j.trump@usa.com\",\n\t\"target\" : \"xi.jingping@china.com\"\n}"
+							"raw": "{\n  \"requestor\" : \"donald.j.trump@usa.com\",\n  \"target\" : \"xi.jingping@china.com\"\n}"
 						},
-						"description": "The parameter:friends should be an array with two items"
+						"description": ""
 					},
 					"response": []
 				}
 			]
 		},
 		{
-			"name": "/setting/reset",
-			"request": {
-				"url": "{{domain.name}}/setting/reset",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
+			"name": "4.block-flow",
+			"description": "",
+			"item": [
+				{
+					"name": "[FAIL] Anonymous user wants to block Trump",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The requestor should be specified as parameter:requestor\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/block",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"target\" : \"donald.j.trump@usa.com\"\n}"
+						},
+						"description": "The requestor should be specified as parameter:requestor"
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "/setting/users",
-			"request": {
-				"url": "{{domain.name}}/setting/users",
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
+				{
+					"name": "[FAIL] Trump may like to block everyone",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The target should be specified as parameter:target\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/block",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"donald.j.trump@usa.com\"\n}"
+						},
+						"description": "The target should be specified as parameter:target"
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
-		},
-		{
-			"name": "/publish/post",
-			"request": {
-				"url": "{{domain.name}}/publish/post",
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
+				{
+					"name": "[FAIL] Trump also wants to block the poor Songva",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The target or requestor is/are not registered\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/block",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"donald.j.trump@usa.com\",\n  \"target\" : \"songva@gmail.com\"\n}"
+						},
+						"description": "The target or requestor is/are not registered"
+					},
+					"response": []
+				},
+				{
+					"name": "[FAIL] Trump even wants to block himself",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"Cannot block the user her/himself\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/block",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"donald.j.trump@usa.com\",\n  \"target\" : \"donald.j.trump@usa.com\"\n}"
+						},
+						"description": "Cannot block the user her/himself"
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Hamad blocked Trump",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/block",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"hamad.bin.khalifa@qatar.com\",\n  \"target\" : \"donald.j.trump@usa.com\"\n}"
+						},
 						"description": ""
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"sender\": \"xi.jingping@china.com\",\n\t\"text\": \"Hello @shinzo.abe@japan.com\"\n}"
+					},
+					"response": []
 				},
-				"description": ""
-			},
-			"response": []
+				{
+					"name": "[FAIL] Hamad tries to block Trump again",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown properly\"] = jsonData.errorMsg === \"The target has already been blacklisted by the requestor\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/block",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"hamad.bin.khalifa@qatar.com\",\n  \"target\" : \"donald.j.trump@usa.com\"\n}"
+						},
+						"description": "The target has already been blacklisted by the requestor"
+					},
+					"response": []
+				},
+				{
+					"name": "[FAIL] Then Hamad regreted, he turns to make friend with Trump",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown properly\"] = jsonData.errorMsg === \"One of the users has blackedlisted the other\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"friends\" : [\"hamad.bin.khalifa@qatar.com\",\"donald.j.trump@usa.com\"]\n}"
+						},
+						"description": "One of the users has blackedlisted the other"
+					},
+					"response": []
+				},
+				{
+					"name": "[FAIL] Hamad beg Trump to make friend with him",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown properly\"] = jsonData.errorMsg === \"One of the users has blackedlisted the other\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/friend/create",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"friends\" : [\"donald.j.trump@usa.com\",\"hamad.bin.khalifa@qatar.com\"]\n}"
+						},
+						"description": "One of the users has blackedlisted the other"
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Finally Trump blocked Hamad",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/block",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"donald.j.trump@usa.com\",\n  \"target\" : \"hamad.bin.khalifa@qatar.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5.publish-flow",
+			"description": "",
+			"item": [
+				{
+					"name": "[FAIL] Anonymous user wants to publish a post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The sender should be specified as parameter:sender\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\" : \"Hello world\"\n}"
+						},
+						"description": "The requestor should be specified as parameter:requestor"
+					},
+					"response": []
+				},
+				{
+					"name": "[FAIL] Poor Songva tries to publish a post",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The sender is/are not registered\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender\" : \"songva@gmail.com\",\n  \"text\" : \"Hello world\"\n}"
+						},
+						"description": "The sender is/are not registered"
+					},
+					"response": []
+				},
+				{
+					"name": "[FAIL] Trump tries to publish a post with no content",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is false\"] = jsonData.success === false;",
+									"tests[\"ErrorMsg shown correctly\"] = jsonData.errorMsg === \"The content of post should be specified as parameter:text\";"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender\" : \"donald.j.trump@usa.com\"\n}"
+						},
+						"description": "The content of post should be specified as parameter:text"
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Xi published a post and mentioned Shinzo",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;",
+									"tests[\"Recipients count is 4\"] = jsonData.recipients.length === 4;",
+									"",
+									"var candidates = [\"donald.j.trump@usa.com\", \"theresa.may@uk.com\", \"angela.merkel@germany.com\", \"shinzo.abe@japan.com\"];",
+									"",
+									"tests[\"Recipients are correct\"] = candidates.indexOf(jsonData.recipients[0]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[1]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[2]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[3]) > -1"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender\" : \"xi.jingping@china.com\",\n  \"text\" : \"Belt & Road, @shinzo.abe@japan.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Theresa subscribed to Xi, although she has already been a friend of Xi",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"theresa.may@uk.com\",\n  \"target\" : \"xi.jingping@china.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Xi published the same post again, but Theresa is not notified twice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;",
+									"tests[\"Recipients count is 4\"] = jsonData.recipients.length === 4;",
+									"",
+									"var candidates = [\"donald.j.trump@usa.com\", \"theresa.may@uk.com\", \"angela.merkel@germany.com\", \"shinzo.abe@japan.com\"];",
+									"",
+									"tests[\"Recipients are correct\"] = candidates.indexOf(jsonData.recipients[0]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[1]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[2]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[3]) > -1"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender\" : \"xi.jingping@china.com\",\n  \"text\" : \"Belt & Road, @shinzo.abe@japan.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Marcon subscribed to Xi",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/subscribe",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"emmanuel.macron@france.com\",\n  \"target\" : \"xi.jingping@china.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Xi published another post, then Marcon received the notification",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;",
+									"tests[\"Recipients count is 5\"] = jsonData.recipients.length === 5;",
+									"",
+									"var candidates = [\"donald.j.trump@usa.com\", \"theresa.may@uk.com\", \"angela.merkel@germany.com\", \"shinzo.abe@japan.com\", \"emmanuel.macron@france.com\"];",
+									"",
+									"tests[\"Recipients are correct\"] = candidates.indexOf(jsonData.recipients[0]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[1]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[2]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[3]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[4]) > -1"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender\" : \"xi.jingping@china.com\",\n  \"text\" : \"Belt & Road, @shinzo.abe@japan.com @songva@gmail.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Slut Trump blocked Xi",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/block",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"requestor\" : \"donald.j.trump@usa.com\",\n  \"target\" : \"xi.jingping@china.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Xi published another post, then Trump got no notifications",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;",
+									"tests[\"Recipients count is 4\"] = jsonData.recipients.length === 4;",
+									"",
+									"var candidates = [\"theresa.may@uk.com\", \"angela.merkel@germany.com\", \"shinzo.abe@japan.com\", \"emmanuel.macron@france.com\"];",
+									"",
+									"tests[\"Recipients are correct\"] = candidates.indexOf(jsonData.recipients[0]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[1]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[2]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[3]) > -1"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender\" : \"xi.jingping@china.com\",\n  \"text\" : \"Belt & Road, @shinzo.abe@japan.com @songva@gmail.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Trump will no longer receive updates from Xi, even if Xi mentioned him",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;",
+									"tests[\"Recipients count is 4\"] = jsonData.recipients.length === 4;",
+									"",
+									"var candidates = [\"theresa.may@uk.com\", \"angela.merkel@germany.com\", \"shinzo.abe@japan.com\", \"emmanuel.macron@france.com\"];",
+									"",
+									"tests[\"Recipients are correct\"] = candidates.indexOf(jsonData.recipients[0]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[1]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[2]) > -1",
+									"                               && candidates.indexOf(jsonData.recipients[3]) > -1"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender\" : \"xi.jingping@china.com\",\n  \"text\" : \"Belt & Road, @shinzo.abe@japan.com @donald.j.trump@usa.com\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "[SUC] Hamad published a post, but no one knows",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"tests[\"Status code is 200\"] = responseCode.code === 200;",
+									"",
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Success is true\"] = jsonData.success === true;",
+									"tests[\"No errorMsg\"] = jsonData.errorMsg === undefined;",
+									"tests[\"Recipients is empty\"] = jsonData.recipients.length === 0;"
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "{{domain.name}}/publish/post",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"sender\" : \"hamad.bin.khalifa@qatar.com\",\n  \"text\" : \"World Peace\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
