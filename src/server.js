@@ -16,11 +16,11 @@ app.use('/block', BlockController);
 app.use('/publish', PostUpdateController);
 app.use('/setting', UtilController);
 
-app.use((req, res, next) => {
-    res.status(405);
-    res.json({
-        '405' : 'Method not allowed'
-    });
+app.use((req, res) => {
+	res.status(405);
+	res.json({
+		'405' : 'Method not allowed'
+	});
 });
 
 app.listen(process.env.VCAP_APP_PORT || 3000);

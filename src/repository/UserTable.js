@@ -13,15 +13,15 @@ users.push(new User('emmanuel.macron@france.com'));
 users.push(new User('vladimir.putin@russian.com'));
 
 let UserList = {
-    hasUser : (userEmail) => {
-        return users.find((user) => {
-            return user.getEmail() === userEmail;
-        });
-    },
-    getUsers : () => {
-        return users;
-    }
-}
+	hasUser : (userEmail) => {
+		return users.find((user) => {
+			return user.getEmail() === userEmail;
+		});
+	},
+	getUsers : () => {
+		return users;
+	}
+};
 
 
 export default UserList;
